@@ -22,11 +22,11 @@ Este projeto é configurado usando um arquivo `docker-compose.yml` que define os
 
 1. **Clone o Repositório**
 
-   Primeiro, clone o repositório onde o `docker-compose.yml` está localizado para sua máquina local. Se você ainda não tem um repositório configurado, crie um diretório e adicione o arquivo `docker-compose.yml` nele.
+   Primeiro, clone o repositório 
 
    ```bash
-    git clone <URL_DO_REPOSITORIO>
-    cd <NOME_DO_REPOSITORIO>
+    git clone https://github.com/ViniciusWessner/monitoring.git
+    cd monitoring
    ```
 
 
@@ -40,12 +40,12 @@ Este projeto é configurado usando um arquivo `docker-compose.yml` que define os
 
 3. **Crie e Inicie os Containers**
 
-Navegue até o diretório onde o docker-compose.yml está localizado e execute o seguinte comando para iniciar os serviços:
+    Navegue até o diretório onde o docker-compose.yml está localizado e execute o seguinte comando para iniciar os serviços:
 
    ```bash
     docker-compose up -d
    ```
-O parâmetro -d faz com que os containers sejam executados em segundo plano e nao bloqueie o terminal.
+    O parâmetro -d faz com que os containers sejam executados em segundo plano e nao bloqueie o terminal.
 
 ## Acessando os Serviços
 
