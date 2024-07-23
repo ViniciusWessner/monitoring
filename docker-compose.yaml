@@ -1,0 +1,58 @@
+version: '3.9'
+
+volumes:
+  grafana_data: {}
+  prometheus_data: {}
+
+networks:
+  monitoring_default:
+    driver: bridge
+
+services:
+  grafana:
+    image: grafana/grafana-oss:latest
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 3030:3000
+    volumes:
+      - ./grafana:/etc/grafana/confi
+      - grafana_data:/var/lib/grafana
+    networks:
+      - monitoring_default
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: porometheus
+    restart: unless-stopped
+    ports:
+      - 3031:9090
+    volumes:
+      - ./prometheus:/etc/prometheus
+      - prometheus_data:/var/lib/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yaml'
+      - '--storage.tsdb.path=/prometheus'   
+      - '--storage.tsdb.retention=31d'
+      - '--web.console.libraries=/usr/share/prometheus/console_libraries'
+      - '--web.console.templates=/usr/share/prometheus/consoles'
+    networks:
+      - monitoring_default
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    restart: unless-stopped
+    volumes:
+      - /proc:/host/proc:ro
+      - /sys:/host/sys:ro
+      - /:/rootfs:ro
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    ports:
+      - 9100:9100
+    networks:
+      - monitoring_default
